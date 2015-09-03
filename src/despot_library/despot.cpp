@@ -188,7 +188,8 @@ void DESPOT::InitLowerBound(VNode* vnode, ScenarioLowerBound* lower_bound,
 	RandomStreams& streams, History& history) {
 	streams.position(vnode->depth());
 	ValuedAction move = lower_bound->Value(vnode->particles(), streams, history);
-	move.value *= Discount(vnode->depth());
+	//move.value *= Discount(vnode->depth());
+	move.value = Discount(vnode->depth()) * move.value - Globals::config.pruning_constant;
 	vnode->default_move(move);
 	vnode->lower_bound(move.value);
 }
@@ -669,7 +670,7 @@ void DESPOT::Expand(QNode* qnode, ScenarioLowerBound* lb,
 		}
 	}
 	step_reward = Discount(parent->depth()) * step_reward
-		- Globals::config.pruning_constant;
+		- Globals::config.pruning_constant;//pruning_constant is used for regularization
 
 	double lower_bound = step_reward;
 	double upper_bound = step_reward;
