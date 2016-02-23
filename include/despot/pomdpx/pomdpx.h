@@ -58,7 +58,6 @@ private:
 	void ComputeDefaultActions(std::string type) const;
 	void PrintDefaultActions();
 
-	void PrintModel(std::ostream& out = std::cout) const;
 
 public:
 	static POMDPX* current_;
@@ -125,6 +124,7 @@ public:
 	const std::string& GetActionName();
 	const std::string& GetEnumedAction(int action);
 	OBS_TYPE GetPOMDPXObservation(std::map<std::string, std::string>& observe);
+	void PrintModel(std::ostream& out = std::cout) const;
 };
 
 } // namespace despot

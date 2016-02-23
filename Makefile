@@ -12,7 +12,7 @@ CXX = g++
 CXXFLAGS = -O3 -c -Wall -Wno-sign-compare -fpic $(INCL) $(GPROF)
 #LDFLAGS = -O3 -Wno-sign-compare -shared
 #LDFLAGS = -O3 -Wno-sign-compare -dynamiclib $(GPROF)
-LDFLAGS = -O3 -Wno-sign-compare $(GPROF)
+LDFLAGS =  -O3 -Wno-sign-compare $(GPROF)
 
 ##### Files
 
@@ -26,7 +26,8 @@ CPPEXAMPLE = $(addprefix examples/cpp_models/, $(shell ls examples/cpp_models))
 
 .PHONY: core directory library cpp_models clean
 
-core: directory $(DEPS) $(OBJS)
+core: directory $(DEPS) $(OBJS) $(OBJDIR)/libdespot.so $(OBJDIR)/libdespot.a
+
 
 # Rule for creating directories needed for build
 directory:
@@ -43,11 +44,14 @@ $(DEPDIR)/%.d: %.cpp
 
 # Rules for creating object files
 $(OBJDIR)/%.o: %.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@ 
+	$(CXX) $(CXXFLAGS) $< -o $@
 
 # Rules for creating library from the object files
-#library: $(OBJS)
-#	$(CXX) $(OBJS) $(LDFLAGS) -I $(INCDIR) -o $(OBJDIR)/libdespot.so
+$(OBJDIR)/libdespot.so: $(OBJS)
+	$(CXX) $(OBJS) $(LDFLAGS) -shared -I $(INCDIR) -o $(OBJDIR)/libdespot.so
+
+$(OBJDIR)/libdespot.a: $(OBJS)
+	ar rcs $@ $^
 
 # Rules for compiling the executables for the cpp models in examples/cpp_models
 cpp_models:

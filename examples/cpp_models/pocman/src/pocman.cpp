@@ -723,7 +723,7 @@ ScenarioLowerBound* Pocman::CreateScenarioLowerBound(string name,
 POMCPPrior* Pocman::CreatePOMCPPrior(string name) const {
 	if (name == "UNIFORM") {
 		return new UniformPOMCPPrior(this);
-	} else if (name == "DEFAULT" || name == "SMART") {
+	} else if (name == "DEFAULT" || name == "SMART" || true) {
 		return new PocmanPOMCPPrior(this);
 	} else {
 		cerr << "Unsupported POMCP prior: " << name << endl;
@@ -733,6 +733,7 @@ POMCPPrior* Pocman::CreatePOMCPPrior(string name) const {
 }
 
 void Pocman::PrintState(const State& state, ostream& ostr) const {
+    /*
 	const PocmanState& pocstate = static_cast<const PocmanState&>(state);
 	ostr << endl;
 	for (int x = 0; x < maze_.xsize() + 2; x++)
@@ -769,10 +770,13 @@ void Pocman::PrintState(const State& state, ostream& ostr) const {
 	for (int x = 0; x < maze_.xsize() + 2; x++)
 		ostr << "X ";
 	ostr << endl;
+    */
 }
 
 void Pocman::PrintObs(const State& state, OBS_TYPE observation,
 	ostream& ostr) const {
+	ostr << observation << endl;
+    /*
 	const PocmanState& pocstate = static_cast<const PocmanState&>(state);
 	Grid<char> obs(maze_.xsize(), maze_.ysize());
 	obs.SetAllValues(' ');
@@ -819,7 +823,7 @@ void Pocman::PrintObs(const State& state, OBS_TYPE observation,
 					obs(pocstate.pocman_pos + smellPos) = '.';
 	}
 
-	ostr << endl;
+	ostr << observation << endl;
 	for (int x = 0; x < maze_.xsize() + 2; x++)
 		ostr << "# ";
 	ostr << endl;
@@ -832,6 +836,7 @@ void Pocman::PrintObs(const State& state, OBS_TYPE observation,
 	for (int x = 0; x < maze_.xsize() + 2; x++)
 		ostr << "# ";
 	ostr << endl;
+    */
 }
 
 void Pocman::PrintBelief(const Belief& belief, ostream& out) const {
@@ -856,7 +861,8 @@ void Pocman::PrintBelief(const Belief& belief, ostream& out) const {
 }
 
 void Pocman::PrintAction(int action, ostream& out) const {
-	out << Compass::CompassString[action] << endl;
+	//out << Compass::CompassString[action] << endl;
+	out << action << endl;
 }
 
 State* Pocman::Allocate(int state_id, double weight) const {
